@@ -43,5 +43,22 @@ async function updatingBook(req, res) {
     });
   }
 }
-async function deletingBook(req, res) {}
-export { createBook, getAllBook, updatingBook };
+async function deletingBook(req, res) {
+  try {
+    const deletedBook = await Book.findByIdAndDelete(req.params.id);
+    if (!deletedBook) {
+      return res.status(404).json({
+        message: "Book not Found",
+      });
+    }
+    res.status(200).json({
+      message: "Book Deleted Successfully",
+      deletedBook,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+}
+export { createBook, getAllBook, updatingBook, deletingBook };
