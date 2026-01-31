@@ -9,6 +9,5 @@ const router = express.Router();
 
 router.post("/", createBook);
 router.get("/", getAllBook);
-router.put("/", updatingBook);
-
+router.put("/:id", updatingBook);
 export default router;

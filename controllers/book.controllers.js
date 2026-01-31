@@ -33,7 +33,7 @@ async function updatingBook(req, res) {
     });
     if (!updatedBook) {
       return res.status(404).json({
-        message: "Book not Found",
+        message: "Book Not Found",
       });
     }
     res.status(200).json(updatedBook);
