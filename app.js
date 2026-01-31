@@ -8,7 +8,7 @@ import userRoutes from "./routes/userRoutes.js";
 import bookRoutes from "./routes/book.routes.js";
 
 const app = express();
-
+// backend file
 // Connect Database
 connectDB();
 
@@ -18,9 +18,10 @@ app.use(express.json());
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/books", bookRoutes);
+app.use("/api/books/:id", bookRoutes);
 
 // Port
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 // Start Server
 app.listen(PORT, () => {

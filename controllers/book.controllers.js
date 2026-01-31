@@ -26,6 +26,22 @@ async function getAllBook(req, res) {
     });
   }
 }
-async function updatingBook(req, res) {}
+async function updatingBook(req, res) {
+  try {
+    const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    if (!updatedBook) {
+      return res.status(404).json({
+        message: "Book not Found",
+      });
+    }
+    res.status(200).json(updatedBook);
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+}
 async function deletingBook(req, res) {}
-export { createBook, getAllBook };
+export { createBook, getAllBook, updatingBook };
