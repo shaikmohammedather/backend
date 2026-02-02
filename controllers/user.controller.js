@@ -1,5 +1,6 @@
 import user from "../models/user.model.js";
 import bcrypt from "bcryptjs";
+import generateToken from "../utils/generateToken.js";
 async function registerUser(req, res) {
   try {
     const { name, email, password } = req.body;
@@ -35,8 +36,38 @@ async function registerUser(req, res) {
       error: error.message,
     });
   }
-  // log in 
-  
+  // log in
+  async function loginUser(req, res) {
+    try {
+      const { email, password } = req.body;
+      if (!email || !password) {
+        return res.status(400).json({ message: "email and password required" });
+      }
+      const existingUser = await user.findOne({ email });
+      if (!existingUser) {
+        return res.status(401).json({ message: "invalid credentials" });
+      }
+      const isPasswordMatch = await bcrypt.compare(
+        password,
+        existingUser.password,
+      );
+      if (!isPasswordMatch) {
+        return res.status(401).json({ message: "invalid credentials" });
+      }
+      const token = generateToken(existingUser);
+      return res.status(200).json({
+        message: "login successful",
+        token,
+        user: {
+          id: existingUser._id,
+          name: existingUser.name,
+          email: existingUser.email,
+        },
+      });
+    } catch (error) {
+      return res.status(500).json({ message: "server error" });
+    }
+  }
 }
 
-export { registerUser };
+export { registerUser, loginUser };
