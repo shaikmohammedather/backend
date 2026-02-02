@@ -18,7 +18,7 @@ app.use(express.json());
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/books", bookRoutes);
-app.use("/api/books/:id", bookRoutes);
+// app.use("/api/books/:id", bookRoutes);
 
 // Port
 const PORT = process.env.PORT || 5000;
